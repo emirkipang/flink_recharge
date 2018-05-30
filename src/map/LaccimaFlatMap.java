@@ -11,6 +11,7 @@ import util.Helper;
 public class LaccimaFlatMap implements FlatMapFunction<String, Laccima> {
 
 	/**
+	 * 
 * 
 */
 	private static final long serialVersionUID = 1L;
