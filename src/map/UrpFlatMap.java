@@ -37,7 +37,7 @@ public class UrpFlatMap implements FlatMapFunction<String, Urp> {
 
 			String[] field = fields.split("\\/");
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+			//SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
 			strDate = field[8].replace("-", "").replace(":", "")
 					.replace(" ", "").substring(0, 12);
 			//Date date = sdf.parse(strDate);
