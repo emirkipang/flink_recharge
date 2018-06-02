@@ -49,11 +49,11 @@ public class LaccimaFlatMap implements FlatMapFunction<String, Laccima> {
 			String lac = null,ci = null, lacci;
 			
 			if(getNode().equals("3g")){
-				lac = Constant.joinRule(Helper.isEmpty(items[0]),5);
-				ci = Constant.joinRule(Helper.isEmpty(items[1]),5);
+				lac = Helper.joinRule(Helper.isEmpty(items[0]),5);
+				ci = Helper.joinRule(Helper.isEmpty(items[1]),5);
 			}else if(getNode().equals("4g")){				
-				lac = Constant.joinRule(Helper.isEmpty(items[0]),7);
-				ci = Constant.joinRule(Helper.isEmpty(items[1]),3);
+				lac = Helper.joinRule(Helper.isEmpty(items[0]),7);
+				ci = Helper.joinRule(Helper.isEmpty(items[1]),3);
 			} 
 			lacci = lac+"|"+ci;
 			

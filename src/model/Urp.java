@@ -17,6 +17,7 @@ public class Urp {
 	
 	private String trx;
 	private String LACCI_4g;
+	private String channel;
 	
 	public Urp(){
 		
@@ -33,8 +34,30 @@ public class Urp {
 		this.trx = trx;
 		this.LACCI_4g = LACCI_4g;
 	}
+	
+	public Urp(long mSISDN, String transactionTime, String responseState,
+			String rechargeNominal, String lACCI, String trx, String LACCI_4g, String channel) {
+		super();
+		
+		MSISDN = mSISDN;
+		TransactionTime = transactionTime;
+		ResponseState = responseState;
+		RechargeNominal = rechargeNominal;
+		LACCI = lACCI;
+		this.trx = trx;
+		this.LACCI_4g = LACCI_4g;
+		this.channel = channel;
+	}
 
 	
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
 	public String getLACCI_4g() {
 		return LACCI_4g;
 	}

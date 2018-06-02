@@ -25,7 +25,7 @@ public class Output1MkiosFlatMap implements
 
 		// 20170718112310
 
-		output.setFields("", in.f0.getRecharge_Date(), in.f1.getArea(),
+		output.setFields(in.f0.getChannel(), in.f0.getRecharge_Date(), in.f1.getArea(),
 				in.f1.getRegional_channel(), in.f1.getBranch(),
 				in.f1.getSubbranch(), in.f1.getCluster(),
 				in.f0.getAcceptor_actual_increase_money(), in.f0.getTrx());

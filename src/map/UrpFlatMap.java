@@ -45,16 +45,20 @@ public class UrpFlatMap implements FlatMapFunction<String, Urp> {
 
 			long msisdn = Long.parseLong(Helper.isEmpty(field[13].replaceAll("[^0-9]", "")));
 			//String tanggal = sdf.format(date);
-			String tempLacci = Constant.joinRule(Helper.isEmpty(field[24]), 10);
+			String tempLacci = Helper.joinRule(Helper.isEmpty(field[24]), 10);
 
 			String laccib_4g = tempLacci.substring(0, 7) + "|"
 					+ tempLacci.substring(7, 10);
 
 			String laccib = tempLacci.substring(0, 5) + "|"
 					+ tempLacci.substring(5, 10);
-
-			out.collect(new Urp(msisdn, strDate, field[6], field[2], laccib,
-					"1", laccib_4g));
+			String response_state = field[6];
+			String recharge_nominal = field[2];
+			//String channel = Helper.getUrpChannel(field[18]);
+			String channel = field[18];
+			
+			out.collect(new Urp(msisdn, strDate, response_state, recharge_nominal, laccib,
+					"1", laccib_4g, channel));
 
 		}
 

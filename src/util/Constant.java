@@ -1,18 +1,23 @@
 package util;
 
 public class Constant {
-	public static String BASEDIR = "D:/Data/GIA/output";
+	public static final String BASEDIR = "D:/Data/GIA/output";
 
-	public static String FILE_MKIOS = BASEDIR + "/ref/in";
-	public static String FILE_URP = BASEDIR + "/ref/in_urp";
-	public static String FILE_LACIMA = BASEDIR + "/ref/v_par_ref_lacima.csv";
-	public static String FILE_LACIMA_4G = BASEDIR
+	public static final String FILE_MKIOS = BASEDIR + "/ref/in/mkios";
+	public static final String FILE_URP = BASEDIR + "/ref/in_urp";
+	public static final String FILE_LACIMA = BASEDIR
+			+ "/ref/v_par_ref_lacima.csv";
+	public static final String FILE_LACIMA_4G = BASEDIR
 			+ "/ref/v_par_ref_lacima_4g.csv";
-	public static String FILE_MDL = BASEDIR + "/ref/mst_dmnt_201710.csv";
-	public static String FILE_WHITELIST = BASEDIR + "/ref/whitelist";
+	public static final String FILE_MDL = BASEDIR + "/ref/mst_dmnt_201710.csv";
+	public static final String FILE_WHITELIST = BASEDIR + "/ref/whitelist";
+	public static final String FILE_SPLIT_CODE_MKIOS = BASEDIR + "/ref/split_code_mkios.csv";
+	public static final String FILE_SPLIT_CODE_URP = BASEDIR + "/ref/split_code_urp.csv";
 
-	public static String OUTPUT = BASEDIR + "/out/mkios/mkios_recharge_summary.csv";
-	public static String OUTPUT_URP = BASEDIR + "/out/mkios/mkios_urp_summary.csv";
+	public static final String OUTPUT = BASEDIR
+			+ "/out/mkios/recharge_mkios_summary.csv";
+	public static final String OUTPUT_URP = BASEDIR
+			+ "/out/urp/recharge_urp_summary.csv";
 	// public static String BASEDIR = "/data/hnat_qsr/data";
 	//
 	// public static String FILE_MKIOS = BASEDIR
@@ -27,18 +32,17 @@ public class Constant {
 	//
 	// public static String OUTPUT = BASEDIR + "/out/chg_summary.csv";
 
-	public static String joinRule(String in, int length) {
-		int gap = length - in.length();
+	public static final String[] MKIOS_REG = { "001" };
+	public static final String[] MKIOS_VAS_FIX = { "013", "014", "015", "016",
+			"062", "063", "075", "083", };
+	public static final String[] MKIOS_VAS_BULK = { "076", "087", "089", "094" };
 
-		if (gap != 0) {
-			for (int i = 1; i <= gap; i++) {
-				in = "0" + in;
-			}
-		}
-
-		return in;
-	}
-	
-
-
+	public static final String[] URP_REG = { "001" };
+	public static final String[] URP_VAS_FIX = { "066", "067", "088", "091",
+			"104" };
+	public static final String[] URP_VAS_BULK = { "037", "038", "039", "040",
+			"041", "042", "043", "044", "045", "046", "047", "048", "049",
+			"050", "051", "052", "053", "054", "055", "056", "057", "058",
+			"074", "077", "079", "080", "081", "090", "093", "099", "100",
+			"101", "102", "103" };
 }

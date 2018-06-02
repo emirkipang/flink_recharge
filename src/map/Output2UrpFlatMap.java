@@ -27,7 +27,7 @@ public class Output2UrpFlatMap implements FlatMapFunction<Tuple2<Urp, MDL>, Outp
 
 		// 20170718112310
 
-		output.setFields("", in.f0.getTransactionTime(), in.f1.getArea_name(),
+		output.setFields(in.f0.getChannel(), in.f0.getTransactionTime(), in.f1.getArea_name(),
 				in.f1.getRegion_name(), in.f1.getBranch(),
 				in.f1.getSub_branch(), in.f1.getClust(),
 				in.f0.getRechargeNominal(), in.f0.getTrx());

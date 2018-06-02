@@ -26,7 +26,7 @@ public class Output1UrpFlatMap implements FlatMapFunction<Tuple2<Urp, Laccima>, 
 
 		// 20170718112310
 
-		output.setFields("", in.f0.getTransactionTime(), in.f1.getArea(),
+		output.setFields(in.f0.getChannel(), in.f0.getTransactionTime(), in.f1.getArea(),
 				in.f1.getRegional_channel(), in.f1.getBranch(),
 				in.f1.getSubbranch(), in.f1.getCluster(),
 				in.f0.getRechargeNominal(), in.f0.getTrx());

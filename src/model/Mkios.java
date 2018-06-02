@@ -79,10 +79,12 @@ public class Mkios {
 	private String Unidentified_40;// 75
 	private String filename;// 76
 
+	private String channel; // -1
 	private String trx; // -1
 	private String combine; // -1 anumber + bnumber
 	private String LACCI_RS_4g; // -1
 	private String LACCI_subscriber_4g; // -1
+
 	/**
 	 * CDR Specification Layout Field-9 = MSISDN Field-11 = Transaction Time
 	 * Field-13 = Response State Field-19 = Recharge Nominal Field-41 = LACCI B
@@ -91,7 +93,8 @@ public class Mkios {
 
 	public Mkios(long MSISDN, String Recharge_Date, String Response_state,
 			String Acceptor_actual_increase_money, String LACCI_subscriber,
-			String trx, String LACCI_RS, String combine, String LACCI_RS_4g, String LACCI_subscriber_4g, long Hand_phone_No_of_a_Dealer) {
+			String trx, String LACCI_RS, String combine, String LACCI_RS_4g,
+			String LACCI_subscriber_4g, long Hand_phone_No_of_a_Dealer) {
 		this.MSISDN = MSISDN;
 		this.Recharge_Date = Recharge_Date;
 		this.Response_state = Response_state;
@@ -105,11 +108,38 @@ public class Mkios {
 		this.Hand_phone_No_of_a_Dealer = Hand_phone_No_of_a_Dealer;
 	}
 
+	public Mkios(long MSISDN, String Recharge_Date, String Response_state,
+			String Acceptor_actual_increase_money, String LACCI_subscriber,
+			String trx, String LACCI_RS, String combine, String LACCI_RS_4g,
+			String LACCI_subscriber_4g, long Hand_phone_No_of_a_Dealer,
+			String channel) {
+
+		this.MSISDN = MSISDN;
+		this.Recharge_Date = Recharge_Date;
+		this.Response_state = Response_state;
+		this.Acceptor_actual_increase_money = Acceptor_actual_increase_money;
+		this.LACCI_subscriber = LACCI_subscriber;
+		this.trx = trx;
+		this.LACCI_RS = LACCI_RS;
+		this.combine = combine;
+		this.LACCI_RS_4g = LACCI_RS_4g;
+		this.LACCI_subscriber_4g = LACCI_subscriber_4g;
+		this.Hand_phone_No_of_a_Dealer = Hand_phone_No_of_a_Dealer;
+		this.channel = channel;
+	}
+
 	public Mkios() {
 		super();
 	}
 
-	
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
 	public String getLACCI_RS_4g() {
 		return LACCI_RS_4g;
 	}

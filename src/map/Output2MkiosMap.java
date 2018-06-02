@@ -33,7 +33,7 @@ public class Output2MkiosMap implements MapFunction<Tuple2<Mkios, MDL>, Output> 
 
 		// 20170718112310
 
-		out.setFields("", in.f0.getRecharge_Date(), in.f1.getArea_name(),
+		out.setFields(in.f0.getChannel(), in.f0.getRecharge_Date(), in.f1.getArea_name(),
 				in.f1.getRegion_name(), in.f1.getBranch(),
 				in.f1.getSub_branch(), in.f1.getClust(),
 				in.f0.getAcceptor_actual_increase_money(), in.f0.getTrx());

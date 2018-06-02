@@ -36,8 +36,8 @@ public class MkiosFlatMap implements FlatMapFunction<String, Mkios> {
 			
 			long bnumber = Long.parseLong("62" + Helper.isEmpty(items[9].replaceAll("[^0-9]", "")));
 			long anumber = Long.parseLong("62" + Helper.isEmpty(items[2].replaceAll("[^0-9]", "")));
-			String laccia = Constant.joinRule(Helper.isEmpty(items[27]), 10);
-			String laccib = Constant.joinRule(Helper.isEmpty(items[41]), 10);
+			String laccia = Helper.joinRule(Helper.isEmpty(items[27]), 10);
+			String laccib = Helper.joinRule(Helper.isEmpty(items[41]), 10);
 
 			String laccia_3g = laccia.substring(0, 5) + "|"
 					+ laccia.substring(5, 10);
@@ -49,11 +49,15 @@ public class MkiosFlatMap implements FlatMapFunction<String, Mkios> {
 			String laccib_4g = laccib.substring(0, 7) + "|"
 					+ laccib.substring(7, 10);
 
-			String combine = Constant.joinRule(Long.toString(anumber)+"|"+Long.toString(bnumber),28);
+			String combine = Helper.joinRule(Long.toString(anumber)+"|"+Long.toString(bnumber),28);
+			String Acceptor_actual_increase_money = items[19];
+			String Response_state = items[13];
+			//String channel = Helper.getMkiosChannel(items[43]);
+			String channel = items[43];
 
-			out.collect(new Mkios(bnumber, strDate, items[13],
-					items[19], laccib_3g, "1", laccia_3g, combine, laccia_4g,
-					laccib_4g, anumber));
+			out.collect(new Mkios(bnumber, strDate, Response_state,
+					Acceptor_actual_increase_money, laccib_3g, "1", laccia_3g, combine, laccia_4g,
+					laccib_4g, anumber, channel));
 
 		}
 
