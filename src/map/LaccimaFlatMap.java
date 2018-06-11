@@ -64,6 +64,15 @@ public class LaccimaFlatMap implements FlatMapFunction<String, Laccima> {
 			if (items[17].equalsIgnoreCase("PUMA")){
 				items[17] = "MALUKU DAN PAPUA";
 			}
+			
+			if (items[17].equalsIgnoreCase("JATENG")){
+				items[17] = "JATENG-DIY";
+			}
+			
+			if (items[17].equalsIgnoreCase("JABAR")){
+				items[17] = "JAWA BARAT";
+			}
+
 
 			if (items[17].equalsIgnoreCase("SUMBAGSEL")
 					|| items[17].equalsIgnoreCase("SUMBAGUT")
@@ -72,19 +81,17 @@ public class LaccimaFlatMap implements FlatMapFunction<String, Laccima> {
 			} else if (items[17].equalsIgnoreCase("WESTERN JABOTABEK")
 					|| items[17].equalsIgnoreCase("EASTERN JABOTABEK")
 					|| items[17].equalsIgnoreCase("CENTRAL JABOTABEK")
-					|| items[17].equalsIgnoreCase("JABAR")
+					|| items[17].equalsIgnoreCase("JAWA BARAT")
 					|| items[17].equalsIgnoreCase("SAD REGIONAL")) {
 				strArea = "AREA 2";
 			} else if (items[17].equalsIgnoreCase("JATENG-DIY")
-					|| items[17].equalsIgnoreCase("JATENG")
 					|| items[17].equalsIgnoreCase("JATIM")
 					|| items[17].equalsIgnoreCase("BALI NUSRA")) {
 				strArea = "AREA 3";
 			} else if (items[17].equalsIgnoreCase("KALIMANTAN")
 					|| items[17].equalsIgnoreCase("SULAWESI")
 					|| items[17].equalsIgnoreCase("PAPUA")
-					|| items[17].equalsIgnoreCase("MALUKU DAN PAPUA")
-					|| items[17].equalsIgnoreCase("PUMA")) {
+					|| items[17].equalsIgnoreCase("MALUKU DAN PAPUA")) {
 				strArea = "AREA 4";
 			}
 

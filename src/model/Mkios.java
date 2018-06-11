@@ -57,7 +57,7 @@ public class Mkios {
 	private String Unidentified_19;// 53
 	private String Unidentified_20;// 54
 	private String Unidentified_21;// 55
-	private String AD_MSISDN;// 56
+	private long AD_MSISDN;// 56
 	private String Unidentified_22;// 57
 	private String Unidentified_23;// 58
 	private String Unidentified_24;// 59
@@ -106,13 +106,14 @@ public class Mkios {
 		this.LACCI_RS_4g = LACCI_RS_4g;
 		this.LACCI_subscriber_4g = LACCI_subscriber_4g;
 		this.Hand_phone_No_of_a_Dealer = Hand_phone_No_of_a_Dealer;
+		
 	}
 
 	public Mkios(long MSISDN, String Recharge_Date, String Response_state,
 			String Acceptor_actual_increase_money, String LACCI_subscriber,
 			String trx, String LACCI_RS, String combine, String LACCI_RS_4g,
 			String LACCI_subscriber_4g, long Hand_phone_No_of_a_Dealer,
-			String channel) {
+			String channel, long AD_MSISDN) {
 
 		this.MSISDN = MSISDN;
 		this.Recharge_Date = Recharge_Date;
@@ -126,6 +127,7 @@ public class Mkios {
 		this.LACCI_subscriber_4g = LACCI_subscriber_4g;
 		this.Hand_phone_No_of_a_Dealer = Hand_phone_No_of_a_Dealer;
 		this.channel = channel;
+		this.AD_MSISDN = AD_MSISDN;
 	}
 
 	public Mkios() {
@@ -608,11 +610,11 @@ public class Mkios {
 		Unidentified_21 = unidentified_21;
 	}
 
-	public String getAD_MSISDN() {
+	public long getAD_MSISDN() {
 		return AD_MSISDN;
 	}
 
-	public void setAD_MSISDN(String aD_MSISDN) {
+	public void setAD_MSISDN(long aD_MSISDN) {
 		AD_MSISDN = aD_MSISDN;
 	}
 

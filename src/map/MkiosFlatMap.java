@@ -36,6 +36,8 @@ public class MkiosFlatMap implements FlatMapFunction<String, Mkios> {
 			
 			long bnumber = Long.parseLong("62" + Helper.isEmpty(items[9].replaceAll("[^0-9]", "")));
 			long anumber = Long.parseLong("62" + Helper.isEmpty(items[2].replaceAll("[^0-9]", "")));
+			long ADnumber = Long.parseLong("62" + Helper.isEmpty(items[56].replaceAll("[^0-9]", "")));
+			
 			String laccia = Helper.joinRule(Helper.isEmpty(items[27]), 10);
 			String laccib = Helper.joinRule(Helper.isEmpty(items[41]), 10);
 
@@ -57,7 +59,7 @@ public class MkiosFlatMap implements FlatMapFunction<String, Mkios> {
 
 			out.collect(new Mkios(bnumber, strDate, Response_state,
 					Acceptor_actual_increase_money, laccib_3g, "1", laccia_3g, combine, laccia_4g,
-					laccib_4g, anumber, channel));
+					laccib_4g, anumber, channel, ADnumber));
 
 		}
 

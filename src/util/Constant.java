@@ -13,9 +13,12 @@ public class Constant {
 	public static final String FILE_WHITELIST = BASEDIR + "/ref/whitelist";
 	public static final String FILE_SPLIT_CODE_MKIOS = BASEDIR + "/ref/split_code_mkios.csv";
 	public static final String FILE_SPLIT_CODE_URP = BASEDIR + "/ref/split_code_urp.csv";
+	public static final String FILE_LIST_AD = BASEDIR + "/ref/list_ad.csv";
 
 	public static final String OUTPUT = BASEDIR
 			+ "/out/mkios/recharge_mkios_summary.csv";
+	public static final String OUTPUT_ANumber = BASEDIR
+			+ "/out/mkios/recharge_mkios_summary_anumber.csv";
 	public static final String OUTPUT_URP = BASEDIR
 			+ "/out/urp/recharge_urp_summary.csv";
 	// public static String BASEDIR = "/data/hnat_qsr/data";

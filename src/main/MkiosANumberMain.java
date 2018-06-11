@@ -5,23 +5,28 @@ import java.util.Map;
 
 import join.MkiosLeftJoinLaccima;
 import join.MkiosLeftJoinLaccimaNULLOnly;
+import join.MkiosLeftJoinListAD;
 import join.MkiosLeftJoinMDLNULLOnly;
 import join.MkiosLeftJoinWhitelistNULLOnly;
 import join.OutputLeftJoinSplitCode;
 import map.LaccimaFlatMap;
+import map.ListADFlatMap;
 import map.MDLFlatMap;
 import map.MkiosFlatMap;
 import map.Output1MkiosFlatMap;
 import map.Output2MkiosMap;
+import map.OutputMkiosANumberMap;
 import map.SplitCodeFlatMap;
 import map.TempMkiosMap;
 import map.TempMkiosMap2;
 import map.TempMkiosMap3;
 import map.WhitelistFlatMap;
 import model.Laccima;
+import model.ListAD;
 import model.MDL;
 import model.Mkios;
 import model.Output;
+import model.Output1Tuple;
 import model.SplitCode;
 import model.Whitelist;
 
@@ -41,7 +46,7 @@ import filter.MkiosFilter;
 import filter.WhitelistFilter;
 
 //test
-public class MkiosMain {
+public class MkiosANumberMain {
 	private HashMap<String, DataSet<String>> dataset_inputs = new HashMap<String, DataSet<String>>();
 	private ExecutionEnvironment env;
 	private int proses_paralel;
@@ -57,10 +62,12 @@ public class MkiosMain {
 	private DataSet<MDL> mdl_tuples;
 	private DataSet<Whitelist> whitelist_tuples;
 	private DataSet<SplitCode> splitcode_tuples;
+	private DataSet<ListAD> listad_tuples;
 
 	private DataSet<Output> output;
 
-	public MkiosMain(int proses_paralel, int sink_paralel, String outputPath) {
+	public MkiosANumberMain(int proses_paralel, int sink_paralel,
+			String outputPath) {
 		this.env = ExecutionEnvironment.getExecutionEnvironment();
 		this.parameter = new Configuration();
 		this.outputPath = outputPath;
@@ -107,14 +114,10 @@ public class MkiosMain {
 				.flatMap(new LaccimaFlatMap("3g")).filter(new LaccimaFilter());
 		laccima_tuples_4g = dataset_inputs.get("ref_lacima_4g")
 				.flatMap(new LaccimaFlatMap("4g")).filter(new LaccimaFilter());
-		mdl_tuples = dataset_inputs.get("ref_mdl").flatMap(new MDLFlatMap())
-				.filter(new MDLFilter());
-		whitelist_tuples = dataset_inputs.get("ref_whitelist")
-				.flatMap(new WhitelistFlatMap())
-				.distinct("anumber", "bnumber", "combine")
-				.filter(new WhitelistFilter());
 		splitcode_tuples = dataset_inputs.get("ref_split_code").flatMap(
 				new SplitCodeFlatMap());
+		listad_tuples = dataset_inputs.get("ref_list_ad").flatMap(
+				new ListADFlatMap());
 	}
 
 	public void processAggregate() {
@@ -123,110 +126,62 @@ public class MkiosMain {
 		// 1. (+) LACCIMA 4G
 		DataSet<Output> mkios_laccima4g = mkios_tuples
 				.join(laccima_tuples_4g, JoinHint.REPARTITION_HASH_SECOND)
-				.where("LACCI_subscriber_4g").equalTo("lacci")
+				.where("LACCI_RS_4g").equalTo("lacci")
 				.flatMap(new Output1MkiosFlatMap());
 
 		/*********** OUTPUT 2 ***********/
 		// 2a. (-) LACCIMA 4G
 		DataSet<Mkios> mkios_laccima4g_null = mkios_tuples
 				.leftOuterJoin(laccima_tuples_4g,
-						JoinHint.REPARTITION_HASH_SECOND)
-				.where("LACCI_subscriber_4g").equalTo("lacci")
-				.with(new MkiosLeftJoinLaccimaNULLOnly())
+						JoinHint.REPARTITION_HASH_SECOND).where("LACCI_RS_4g")
+				.equalTo("lacci").with(new MkiosLeftJoinLaccimaNULLOnly())
 				.map(new TempMkiosMap());
 
 		// 2b. (-) LACCIMA 4G -> (+) LACCIMA 3G
 		DataSet<Output> mkios_laccima4g_null_laccima3g = mkios_laccima4g_null
 				.join(laccima_tuples, JoinHint.REPARTITION_HASH_SECOND)
-				.where("LACCI_subscriber").equalTo("lacci")
+				.where("LACCI_RS").equalTo("lacci")
 				.flatMap(new Output1MkiosFlatMap());
 
 		/*********** OUTPUT 3 ***********/
 		// 3a. (-) LACCIMA 4G -> (-) LACCIMA 3G
 		DataSet<Mkios> mkios_laccima4g_null_laccima3g_null = mkios_laccima4g_null
 				.leftOuterJoin(laccima_tuples, JoinHint.REPARTITION_HASH_SECOND)
-				.where("LACCI_subscriber").equalTo("lacci")
+				.where("LACCI_RS").equalTo("lacci")
 				.with(new MkiosLeftJoinLaccimaNULLOnly())
 				.map(new TempMkiosMap());
 
-		// 3b. (-) LACCIMA 4G -> (-) LACCIMA 3G -> (+) MDL
-		DataSet<Output> mkios_mdl = mkios_laccima4g_null_laccima3g_null
-				.join(mdl_tuples, JoinHint.REPARTITION_HASH_FIRST)
-				.where("MSISDN").equalTo("msisdn").map(new Output2MkiosMap());
-
-		/*********** OUTPUT 4 ***********/
-		// 4a. (-) LACCIMA 4G -> (-) LACCIMA 3G -> (-) MDL
-		DataSet<Mkios> mkios_mdl_null = mkios_laccima4g_null_laccima3g_null
-				.leftOuterJoin(mdl_tuples, JoinHint.REPARTITION_HASH_FIRST)
-				.where("MSISDN").equalTo("msisdn")
-				.with(new MkiosLeftJoinMDLNULLOnly()).map(new TempMkiosMap2());
-
-		// aman
-		// DataSet<Output> mkios_mdl_null = mkios_laccima4g_null_laccima3g_null
-		// .leftOuterJoin(mdl_tuples, JoinHint.REPARTITION_HASH_FIRST)
-		// .where("MSISDN").equalTo("msisdn")
-		// .with(new MkiosLeftJoinMDLNULLOnly()).map(new Output2Map());
-		//
-		//
-		//
-		// 4b. (-) LACCIMA -> (-) MDL -> (-) whitelist -> UNKNOWN
-		DataSet<Output> mkios_mdl_null_whitelist_null = mkios_mdl_null
-				.leftOuterJoin(whitelist_tuples).where("combine")
-				.equalTo("combine").with(new MkiosLeftJoinWhitelistNULLOnly())
+		// 3a. (-) LACCIMA 4G -> (-) LACCIMA 3G -> ListAD / UNKNOWN
+		DataSet<Output> mkios_laccima4g_null_laccima3g_null_ADList = mkios_laccima4g_null_laccima3g_null
+				.leftOuterJoin(listad_tuples).where("AD_MSISDN")
+				.equalTo("LeadADMSISDN")
+				.with(new MkiosLeftJoinListAD())
 				.flatMap(new Output1MkiosFlatMap());
-		//
-		//
-
-		/*********** OUTPUT 5 ***********/
-		// 5a. (-) LACCIMA -> (-) MDL -> (+) whitelist
-		DataSet<Mkios> whitelist = mkios_mdl_null.join(whitelist_tuples)
-				.where("combine").equalTo("combine").map(new TempMkiosMap3());
-
-		// 5b. whitelist -> (+) laccima 4g
-		DataSet<Output> whitelist_laccima4g = whitelist.join(laccima_tuples_4g)
-				.where("LACCI_RS_4g").equalTo("lacci")
-				.flatMap(new Output1MkiosFlatMap());
-
-		/*********** OUTPUT 6 ***********/
-		// 6a. whitelist -> (-) laccima 4g
-		DataSet<Mkios> whitelist_laccima4g_null = whitelist
-				.leftOuterJoin(laccima_tuples_4g,
-						JoinHint.REPARTITION_HASH_SECOND).where("LACCI_RS_4g")
-				.equalTo("lacci").with(new MkiosLeftJoinLaccimaNULLOnly())
-				.map(new TempMkiosMap());
-
-		// 6b. (-) LACCIMA 4G -> (+) LACCIMA 3G / UNKNOWN
-		DataSet<Output> whitelist_laccima4g_null_laccima3g_null = whitelist_laccima4g_null
-				.leftOuterJoin(laccima_tuples, JoinHint.REPARTITION_HASH_SECOND)
-				.where("LACCI_RS").equalTo("lacci")
-				.with(new MkiosLeftJoinLaccima())
-				.flatMap(new Output1MkiosFlatMap());
-
+		
+//		DataSet<Output1Tuple> mkios_laccima4g_null_laccima3g_null_ADList = mkios_laccima4g_null_laccima3g_null
+//				.leftOuterJoin(listad_tuples).where("AD_MSISDN")
+//				.equalTo("LeadADMSISDN")
+//				.with(new MkiosLeftJoinListAD())
+//				.map(new OutputMkiosANumberMap());
+//		mkios_laccima4g_null_laccima3g_null_ADList.writeAsCsv(getOutputPath(), "\n", "|", WriteMode.OVERWRITE)
+//		 .setParallelism(getSink_paralel());
+		
 		/*********** OUTPUT FULL ***********/
-		// 7. combine steps
-		output = mkios_laccima4g.union(mkios_laccima4g_null_laccima3g)
-				.union(mkios_mdl).union(mkios_mdl_null_whitelist_null)
-				.union(whitelist_laccima4g)
-				.union(whitelist_laccima4g_null_laccima3g_null)
-				.groupBy(0, 1, 2, 3, 4, 5, 6)
-				.reduceGroup(new OutputGroupReducer2())
-				.leftOuterJoin(splitcode_tuples).where(0).equalTo("type")
-				.with(new OutputLeftJoinSplitCode("MKIOS"));
+		 output =
+				 mkios_laccima4g.union(mkios_laccima4g_null_laccima3g)
+				 .union(mkios_laccima4g_null_laccima3g_null_ADList)
+				 .groupBy(0, 1, 2, 3, 4, 5, 6)
+				 .reduceGroup(new OutputGroupReducer2())
+				 .leftOuterJoin(splitcode_tuples).where(0).equalTo("type")
+				 .with(new OutputLeftJoinSplitCode("MKIOS"));
+
 	}
 
 	public void sink() throws Exception {
-		output.writeAsCsv(getOutputPath(), "\n", "|", WriteMode.OVERWRITE)
-				.setParallelism(getSink_paralel());
+		 output.writeAsCsv(getOutputPath(), "\n", "|", WriteMode.OVERWRITE)
+		 .setParallelism(getSink_paralel());
 
-		// whitelist_tuples.map(new Output3Map()).writeAsCsv(getOutputPath(),
-		// "\n",
-		// "|",
-		// WriteMode.OVERWRITE)
-		// .setParallelism(getSink_paralel());
-		// mkios_tuples.map(new Output4Map()).writeAsCsv(getOutputPath(), "\n",
-		// "|",
-		// WriteMode.OVERWRITE)
-		// .setParallelism(getSink_paralel());
+		 
 
 	}
 
@@ -246,8 +201,10 @@ public class MkiosMain {
 		 String output = params.get("output");
 		 String whitelist = params.get("whitelist");
 		 String splitcode = params.get("splitcode");
+		 String listad = params.get("listad");
 		
-		 MkiosMain main = new MkiosMain(proses_paralel, sink_paralel, output);
+		 MkiosANumberMain main = new MkiosANumberMain(proses_paralel,
+		 sink_paralel, output);
 		
 		 files.put("source_mkios", source);
 		 files.put("ref_lacima", laccima);
@@ -255,20 +212,22 @@ public class MkiosMain {
 		 files.put("ref_mdl", mdl);
 		 files.put("ref_whitelist", whitelist);
 		 files.put("ref_split_code", splitcode);
+		 files.put("ref_list_ad", listad);
 
 		/** dev **/
 //		int proses_paralel = 2;
 //		int sink_paralel = 1;
 //
-//		MkiosMain main = new MkiosMain(proses_paralel, sink_paralel,
-//				Constant.OUTPUT);
+//		MkiosANumberMain main = new MkiosANumberMain(proses_paralel,
+//				sink_paralel, Constant.OUTPUT_ANumber);
 //		files.put("source_mkios", Constant.FILE_MKIOS);
 //		files.put("ref_lacima", Constant.FILE_LACIMA);
 //		files.put("ref_lacima_4g", Constant.FILE_LACIMA_4G);
 //		files.put("ref_mdl", Constant.FILE_MDL);
 //		files.put("ref_whitelist", Constant.FILE_WHITELIST);
 //		files.put("ref_split_code", Constant.FILE_SPLIT_CODE_MKIOS);
-		/****/
+//		files.put("ref_list_ad", Constant.FILE_LIST_AD);
+		// /****/
 
 		main.setInput(files);
 
@@ -280,7 +239,7 @@ public class MkiosMain {
 
 		// System.out.println(env.getExecutionPlan());
 		try {
-			main.getEnv().execute("job flink mkios");
+			main.getEnv().execute("job flink mkios A#");
 		} catch (Exception e) {
 			// TODO Auto-generated catch blockF
 			e.printStackTrace();

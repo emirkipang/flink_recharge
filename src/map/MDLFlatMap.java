@@ -33,6 +33,15 @@ public class MDLFlatMap implements FlatMapFunction<String, MDL> {
 					items[4] = "MALUKU DAN PAPUA";
 				}
 				
+				if (items[4].equalsIgnoreCase("JATENG")){
+					items[4] = "JATENG-DIY";
+				}
+				
+				if (items[4].equalsIgnoreCase("JABAR")){
+					items[4] = "JAWA BARAT";
+				}
+
+
 				if (items[4].equalsIgnoreCase("SUMBAGSEL")
 						|| items[4].equalsIgnoreCase("SUMBAGUT")
 						|| items[4].equalsIgnoreCase("SUMBAGTENG")) {
@@ -40,23 +49,20 @@ public class MDLFlatMap implements FlatMapFunction<String, MDL> {
 				} else if (items[4].equalsIgnoreCase("WESTERN JABOTABEK")
 						|| items[4].equalsIgnoreCase("EASTERN JABOTABEK")
 						|| items[4].equalsIgnoreCase("CENTRAL JABOTABEK")
-						|| items[4].equalsIgnoreCase("JABAR")
+						|| items[4].equalsIgnoreCase("JAWA BARAT")
 						|| items[4].equalsIgnoreCase("SAD REGIONAL")) {
 					strArea = "AREA 2";
 				} else if (items[4].equalsIgnoreCase("JATENG-DIY")
-						|| items[4].equalsIgnoreCase("JATENG")
 						|| items[4].equalsIgnoreCase("JATIM")
-						|| items[4].equalsIgnoreCase("BALI NUSRA")
-						|| items[4].equalsIgnoreCase("JATENG")) {
+						|| items[4].equalsIgnoreCase("BALI NUSRA")) {
 					strArea = "AREA 3";
 				} else if (items[4].equalsIgnoreCase("KALIMANTAN")
 						|| items[4].equalsIgnoreCase("SULAWESI")
 						|| items[4].equalsIgnoreCase("PAPUA")
-						|| items[4].equalsIgnoreCase("MALUKU DAN PAPUA")
-						|| items[4].equalsIgnoreCase("PUMA")) {
+						|| items[4].equalsIgnoreCase("MALUKU DAN PAPUA")) {
 					strArea = "AREA 4";
 				}
-				
+								
 				long msisdn = Long.parseLong(Helper.isEmpty(items[0].replaceAll("[^0-9]", "")));
 
 				out.collect(new MDL(msisdn, items[3].toUpperCase(), items[4]

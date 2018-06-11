@@ -165,36 +165,36 @@ public class UrpMain {
 		HashMap<String, String> files = new HashMap<String, String>();
 
 		/** prod **/
-		// ParameterTool params = ParameterTool.fromArgs(args);
-		//
-		// int proses_paralel = params.getInt("slot");
-		// int sink_paralel = params.getInt("sink");
-		// String source = params.get("source");
-		// String laccima = params.get("laccima");
-		// String laccima_4g = params.get("laccima_4g");
-		// String mdl = params.get("mdl");
-		// String output = params.get("output");
-		// String splitcode = params.get("splitcode");
-		//
-		// UrpMain main = new UrpMain(proses_paralel, sink_paralel, output);
-		//
-		// files.put("source_urp", source);
-		// files.put("ref_lacima", laccima);
-		// files.put("ref_lacima_4g", laccima_4g);
-		// files.put("ref_mdl", mdl);
-		// files.put("ref_split_code", splitcode);
+		 ParameterTool params = ParameterTool.fromArgs(args);
+		
+		 int proses_paralel = params.getInt("slot");
+		 int sink_paralel = params.getInt("sink");
+		 String source = params.get("source");
+		 String laccima = params.get("laccima");
+		 String laccima_4g = params.get("laccima_4g");
+		 String mdl = params.get("mdl");
+		 String output = params.get("output");
+		 String splitcode = params.get("splitcode");
+		
+		 UrpMain main = new UrpMain(proses_paralel, sink_paralel, output);
+		
+		 files.put("source_urp", source);
+		 files.put("ref_lacima", laccima);
+		 files.put("ref_lacima_4g", laccima_4g);
+		 files.put("ref_mdl", mdl);
+		 files.put("ref_split_code", splitcode);
 
 		/** dev **/
-		int proses_paralel = 2;
-		int sink_paralel = 1;
-
-		UrpMain main = new UrpMain(proses_paralel, sink_paralel,
-				Constant.OUTPUT_URP);
-		files.put("source_urp", Constant.FILE_URP);
-		files.put("ref_lacima", Constant.FILE_LACIMA);
-		files.put("ref_lacima_4g", Constant.FILE_LACIMA_4G);
-		files.put("ref_mdl", Constant.FILE_MDL);
-		files.put("ref_split_code", Constant.FILE_SPLIT_CODE_URP);
+//		int proses_paralel = 2;
+//		int sink_paralel = 1;
+//
+//		UrpMain main = new UrpMain(proses_paralel, sink_paralel,
+//				Constant.OUTPUT_URP);
+//		files.put("source_urp", Constant.FILE_URP);
+//		files.put("ref_lacima", Constant.FILE_LACIMA);
+//		files.put("ref_lacima_4g", Constant.FILE_LACIMA_4G);
+//		files.put("ref_mdl", Constant.FILE_MDL);
+//		files.put("ref_split_code", Constant.FILE_SPLIT_CODE_URP);
 
 		/****/
 

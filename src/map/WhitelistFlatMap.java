@@ -27,11 +27,16 @@ public class WhitelistFlatMap implements FlatMapFunction<String, Whitelist> {
 
 			//String anumber = Helper.isEmpty(items[0]);
 			//String dt_dt = Helper.isEmpty(items[0]);
-			String anumber = Helper.isEmpty("62"+items[1]);
-			String bnumber = Helper.isEmpty("62"+items[2].substring(1, items[2].length()));
-			String combine = Helper.joinRule(anumber+"|"+bnumber,28);
 			
-			out.collect(new Whitelist(anumber, bnumber, combine));
+			long anumber = Long.parseLong(Helper.isEmpty(items[1].replaceAll("[^0-9]", "")));
+			long bnumber = Long.parseLong(Helper.isEmpty(items[2].replaceAll("[^0-9]", "")));
+			
+			String anumber_ = "62" + Long.toString(anumber);
+			String bnumber_ = "62" + Long.toString(bnumber);
+						
+			String combine = Helper.joinRule(anumber_+"|"+bnumber_,28);
+			
+			out.collect(new Whitelist(anumber_, bnumber_, combine));
 
 		}
 
