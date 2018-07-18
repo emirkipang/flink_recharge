@@ -27,7 +27,8 @@ public class OutputLeftJoinSplitCode implements
 			throws Exception {
 		// TODO Auto-generated method stub
 		if (rightElem == null) { 
-			leftElem.f0 = leftElem.f0 + "_" + this.channel;
+			//leftElem.f0 = leftElem.f0 + "_" + this.channel;
+			leftElem.f0 = "MKIOS_VAS_BULK";
 			out.collect(leftElem);
 		} else {
 			leftElem.f0 = rightElem.getChannel();

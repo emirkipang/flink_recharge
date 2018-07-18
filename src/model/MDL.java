@@ -13,6 +13,11 @@ public class MDL {
 	private String node_type;// 8
 	private String total_revenue;// 9
 	private String total_trx;// 10
+	
+	private String lacci; //-1
+	
+	private String lacci_3g; //-1
+	private String lacci_4g; //-1
 
 	// 0 msisdn
 	// 3 clust
@@ -20,6 +25,8 @@ public class MDL {
 	// 5 area_name
 	// 6 branch
 	// 7 sub_branch
+	
+	
 
 	public MDL() {
 		this.region_name = "UNKNOWN";
@@ -27,6 +34,32 @@ public class MDL {
 		this.sub_branch = "UNKNOWN";
 		this.clust = "UNKNOWN";
 		this.area_name = "UNKNOWN";
+	}
+
+	public MDL(long msisdn, String lac, String ci, String clust,
+			String region_name, String area_name, String branch,
+			String sub_branch, String node_type, String total_revenue,
+			String total_trx, String lacci) {
+		super();
+		this.msisdn = msisdn;
+		this.lac = lac;
+		this.ci = ci;
+		this.clust = clust;
+		this.region_name = region_name;
+		this.area_name = area_name;
+		this.branch = branch;
+		this.sub_branch = sub_branch;
+		this.node_type = node_type;
+		this.total_revenue = total_revenue;
+		this.total_trx = total_trx;
+		this.lacci = lacci;
+	}
+	
+	public MDL(long msisdn, String lacci_3g, String lacci_4g) {
+		super();
+		this.msisdn = msisdn;
+		this.lacci_3g = lacci_3g;
+		this.lacci_4g = lacci_4g;
 	}
 
 	public MDL(long msisdn, String clust, String region_name,
@@ -40,6 +73,30 @@ public class MDL {
 	}
 
 	
+
+	public String getLacci_3g() {
+		return lacci_3g;
+	}
+
+	public void setLacci_3g(String lacci_3g) {
+		this.lacci_3g = lacci_3g;
+	}
+
+	public String getLacci_4g() {
+		return lacci_4g;
+	}
+
+	public void setLacci_4g(String lacci_4g) {
+		this.lacci_4g = lacci_4g;
+	}
+
+	public String getLacci() {
+		return lacci;
+	}
+
+	public void setLacci(String lacci) {
+		this.lacci = lacci;
+	}
 
 	public long getMsisdn() {
 		return msisdn;
